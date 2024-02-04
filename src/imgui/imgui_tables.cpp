@@ -1303,7 +1303,7 @@ void    ImGui::EndTable()
 
 #if 0
     // Strip out dummy channel draw calls
-    // We have no way to prevent user submitting direct ImDrawList calls into a hidden column (but ImGui:: calls will be clipped out)
+    // We have no way to prevent user submitting direct ImDrawList calls into a hidden column (but imgui:: calls will be clipped out)
     // Pros: remove draw calls which will have no effect. since they'll have zero-size cliprect they may be early out anyway.
     // Cons: making it harder for users watching metrics/debugger to spot the wasted vertices.
     if (table->DummyDrawChannel != (ImGuiTableColumnIdx)-1)
@@ -2390,7 +2390,7 @@ void ImGui::TableSetupDrawChannels(ImGuiTable* table)
 //
 // Column channels will not be merged into one of the 1-4 groups in the following cases:
 // - The contents stray off its clipping rectangle (we only compare the MaxX value, not the MinX value).
-//   Direct ImDrawList calls won't be taken into account by default, if you use them make sure the ImGui:: bounds
+//   Direct ImDrawList calls won't be taken into account by default, if you use them make sure the imgui:: bounds
 //   matches, by e.g. calling SetCursorScreenPos().
 // - The channel uses more than one draw command itself. We drop all our attempt at merging stuff here..
 //   we could do better but it's going to be rare and probably not worth the hassle.
@@ -3691,8 +3691,8 @@ void ImGui::DebugNodeTableSettings(ImGuiTableSettings* settings)
 
 #else // #ifndef IMGUI_DISABLE_DEBUG_TOOLS
 
-void ImGui::DebugNodeTable(ImGuiTable*) {}
-void ImGui::DebugNodeTableSettings(ImGuiTableSettings*) {}
+void imgui::DebugNodeTable(ImGuiTable*) {}
+void imgui::DebugNodeTableSettings(ImGuiTableSettings*) {}
 
 #endif
 

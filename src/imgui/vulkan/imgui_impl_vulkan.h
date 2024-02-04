@@ -13,7 +13,7 @@
 
 // You can use unmodified imgui_impl_* files in your project. See examples/ folder for examples of using this.
 // Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.
-// Learn about Dear ImGui:
+// Learn about Dear imgui:
 // - FAQ                  https://dearimgui.com/faq
 // - Getting Started      https://dearimgui.com/getting-started
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
@@ -28,7 +28,7 @@
 
 #pragma once
 #ifndef IMGUI_DISABLE
-#include "imgui.h"      // IMGUI_IMPL_API
+#include "imgui_host.h"      // IMGUI_IMPL_API
 
 // [Configuration] in order to use a custom Vulkan function loader:
 // (1) You'll need to disable default Vulkan function prototypes.

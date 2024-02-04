@@ -734,7 +734,7 @@ bool ImGui::SmallButton(const char* label)
     return pressed;
 }
 
-// Tip: use ImGui::PushID()/PopID() to push indices or pointers in the ID stack.
+// Tip: use imgui::PushID()/PopID() to push indices or pointers in the ID stack.
 // Then you can keep 'str_id' empty or the same for all your buttons (instead of creating a string based on a non-string id)
 bool ImGui::InvisibleButton(const char* str_id, const ImVec2& size_arg, ImGuiButtonFlags flags)
 {
@@ -3945,7 +3945,7 @@ static bool InputTextFilterCharacter(ImGuiContext* ctx, unsigned int* p_char, Im
         // The standard mandate that programs starts in the "C" locale where the decimal point is '.'.
         // We don't really intend to provide widespread support for it, but out of empathy for people stuck with using odd API, we support the bare minimum aka overriding the decimal point.
         // Change the default decimal_point with:
-        //   ImGui::GetIO()->PlatformLocaleDecimalPoint = *localeconv()->decimal_point;
+        //   imgui::GetIO()->PlatformLocaleDecimalPoint = *localeconv()->decimal_point;
         // Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions.
         ImGuiContext& g = *ctx;
         const unsigned c_decimal_point = (unsigned int)g.IO.PlatformLocaleDecimalPoint;
@@ -4070,7 +4070,7 @@ void ImGui::InputTextDeactivateHook(ImGuiID id)
 //   This is so we can easily call InputText() on static arrays using ARRAYSIZE() and to match
 //   Note that in std::string world, capacity() would omit 1 byte used by the zero-terminator.
 // - When active, hold on a privately held copy of the text (and apply back to 'buf'). So changing 'buf' while the InputText is active has no effect.
-// - If you want to use ImGui::InputText() with std::string, see misc/cpp/imgui_stdlib.h
+// - If you want to use imgui::InputText() with std::string, see misc/cpp/imgui_stdlib.h
 // (FIXME: Rather confusing and messy function, among the worse part of our codebase, expecting to rewrite a V2 at some point.. Partly because we are
 //  doing UTF8 > U16 > UTF8 conversions on the go to easily interface with stb_textedit. Ideally should stay in UTF-8 all the time. See https://github.com/nothings/stb/issues/188)
 bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_size, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* callback_user_data)

@@ -8,11 +8,11 @@
 #endif
 
 namespace alice {
-    Shader::Shader(const char *vertex, const char *fragment) {
+    Shader::Shader(const char *vertex_shader_src, const char *fragment_shader_src) {
 #ifdef OPENGL
         auto vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 
-        glShaderSource(vertex_shader, 1, &vertex, nullptr);
+        glShaderSource(vertex_shader, 1, &vertex_shader_src, nullptr);
 
         glCompileShader(vertex_shader);
 
@@ -34,7 +34,7 @@ namespace alice {
 
         auto fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-        glShaderSource(fragment_shader, 1, &fragment, nullptr);
+        glShaderSource(fragment_shader, 1, &fragment_shader_src, nullptr);
 
         glCompileShader(fragment_shader);
 

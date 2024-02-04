@@ -8,7 +8,7 @@ namespace alice {
     class Shader {
         uint32_t program_ = 0;
     public:
-        Shader(const char *vertex, const char *fragment);
+        Shader(const char *vertex_shader_src, const char *fragment_shader_src);
 
         void Use() const;
 

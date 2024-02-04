@@ -2,6 +2,7 @@ file(GLOB SOURCE *.h *.cpp)
 
 add_library(imgui INTERFACE)
 target_sources(imgui INTERFACE ${SOURCE})
+target_link_libraries(imgui INTERFACE glfw)
 target_include_directories(imgui INTERFACE .)
 
 add_library(imgui_gl INTERFACE)

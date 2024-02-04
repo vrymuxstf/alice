@@ -3,26 +3,26 @@
 
 // Help:
 // - Read FAQ at http://dearimgui.com/faq
-// - Call and read ImGui::ShowDemoWindow() in imgui_demo.cpp. All applications in examples/ are doing that.
-// - Need help integrating Dear ImGui in your codebase?
+// - Call and read imgui::ShowDemoWindow() in imgui_demo.cpp. All applications in examples/ are doing that.
+// - Need help integrating Dear imgui in your codebase?
 //   - Read Getting Started https://github.com/ocornut/imgui/wiki/Getting-Started
-//   - Read 'Programmer guide' in imgui.cpp for notes on how to setup Dear ImGui in your codebase.
+//   - Read 'Programmer guide' in imgui.cpp for notes on how to setup Dear imgui in your codebase.
 // Read imgui.cpp for more details, documentation and comments.
 // Get the latest version at https://github.com/ocornut/imgui
 
 //---------------------------------------------------
 // PLEASE DO NOT REMOVE THIS FILE FROM YOUR PROJECT!
 //---------------------------------------------------
-// Message to the person tempted to delete this file when integrating Dear ImGui into their codebase:
+// Message to the person tempted to delete this file when integrating Dear imgui into their codebase:
 // Think again! It is the most useful reference code that you and other coders will want to refer to and call.
-// Have the ImGui::ShowDemoWindow() function wired in an always-available debug menu of your game/app!
+// Have the imgui::ShowDemoWindow() function wired in an always-available debug menu of your game/app!
 // Also include Metrics! ItemPicker! DebugLog! and other debug features.
 // Removing this file from your project is hindering access to documentation for everyone in your team,
 // likely leading you to poorer usage of the library.
-// Everything in this file will be stripped out by the linker if you don't call ImGui::ShowDemoWindow().
-// If you want to link core Dear ImGui in your shipped builds but want a thorough guarantee that the demo will not be
+// Everything in this file will be stripped out by the linker if you don't call imgui::ShowDemoWindow().
+// If you want to link core Dear imgui in your shipped builds but want a thorough guarantee that the demo will not be
 // linked, you can setup your imconfig.h with #define IMGUI_DISABLE_DEMO_WINDOWS and those functions will be empty.
-// In another situation, whenever you have Dear ImGui available you probably want this to be available for reference.
+// In another situation, whenever you have Dear imgui available you probably want this to be available for reference.
 // Thank you,
 // -Your beloved friend, imgui_demo.cpp (which you won't delete)
 
@@ -45,9 +45,9 @@
 //-----------------------------------------
 // The Demo code in this file is designed to be easy to copy-and-paste into your application!
 // Because of this:
-// - We never omit the ImGui:: prefix when calling functions, even though most code here is in the same namespace.
+// - We never omit the imgui:: prefix when calling functions, even though most code here is in the same namespace.
 // - We try to declare static variables in the local scope, as close as possible to the code using them.
-// - We never use any of the helpers/facilities used internally by Dear ImGui, unless available in the public API.
+// - We never use any of the helpers/facilities used internally by Dear imgui, unless available in the public API.
 // - We never use maths operators on ImVec2/ImVec4. For our other sources files we use them, and they are provided
 //   by imgui.h using the IMGUI_DEFINE_MATH_OPERATORS define. For your own sources file they are optional
 //   and require you either enable those, either provide your own via IM_VEC2_CLASS_EXTRA in imconfig.h.
@@ -124,7 +124,7 @@ Index of this file:
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"        // warning: 'xx' is deprecated: The POSIX name for this..   // for strdup used in demo code (so user can copy & paste the code)
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"       // warning: cast to 'void *' from smaller integer type
 #pragma clang diagnostic ignored "-Wformat-security"                // warning: format string is not a string literal
-#pragma clang diagnostic ignored "-Wexit-time-destructors"          // warning: declaration requires an exit-time destructor    // exit-time destruction order is undefined. if MemFree() leads to users code that has been disabled before exit it might cause problems. ImGui coding style welcomes static/globals.
+#pragma clang diagnostic ignored "-Wexit-time-destructors"          // warning: declaration requires an exit-time destructor    // exit-time destruction order is undefined. if MemFree() leads to users code that has been disabled before exit it might cause problems. imgui coding style welcomes static/globals.
 #pragma clang diagnostic ignored "-Wunused-macros"                  // warning: macro is not used                               // we define snprintf/vsnprintf on Windows so they are available, but not always used.
 #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"  // warning: zero as null pointer constant                   // some standard header variations use #define NULL 0
 #pragma clang diagnostic ignored "-Wdouble-promotion"               // warning: implicit conversion from 'float' to 'double' when passing argument to function  // using printf() is a misery with this as C++ va_arg ellipsis changes float to double.
@@ -249,14 +249,14 @@ void*                               GImGuiDemoMarkerCallbackUserData = NULL;
 // - ShowDemoWindowInputs()
 //-----------------------------------------------------------------------------
 
-// Demonstrate most Dear ImGui features (this is big function!)
+// Demonstrate most Dear imgui features (this is big function!)
 // You may execute this function to renderer with the UI and understand what it does.
 // You may then search for keywords in the code when you are interested by a specific feature.
 void ImGui::ShowDemoWindow(bool* p_open)
 {
-    // Exceptionally add an extra assert here for people confused about initial Dear ImGui setup
+    // Exceptionally add an extra assert here for people confused about initial Dear imgui setup
     // Most functions would normally just assert/crash if the context is missing.
-    IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing Dear ImGui context. Refer to examples app!");
+    IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing Dear imgui context. Refer to examples app!");
 
     // Examples Apps (accessible from the "Examples" menu)
     static bool show_app_main_menu_bar = false;
@@ -287,7 +287,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     if (show_app_long_text)           ShowExampleAppLongText(&show_app_long_text);
     if (show_app_window_titles)       ShowExampleAppWindowTitles(&show_app_window_titles);
 
-    // Dear ImGui Tools (accessible from the "Tools" menu)
+    // Dear imgui Tools (accessible from the "Tools" menu)
     static bool show_tool_metrics = false;
     static bool show_tool_debug_log = false;
     static bool show_tool_stack_tool = false;
@@ -302,7 +302,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
         ImGui::ShowStackToolWindow(&show_tool_stack_tool);
     if (show_tool_style_editor)
     {
-        ImGui::Begin("Dear ImGui Style Editor", &show_tool_style_editor);
+        ImGui::Begin("Dear imgui Style Editor", &show_tool_style_editor);
         ImGui::ShowStyleEditor();
         ImGui::End();
     }
@@ -342,7 +342,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
     // Main body of the Demo window starts here.
-    if (!ImGui::Begin("Dear ImGui Demo", p_open, window_flags))
+    if (!ImGui::Begin("Dear imgui Demo", p_open, window_flags))
     {
         // Early out if the window is collapsed, as an optimization.
         ImGui::End();
@@ -351,7 +351,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
 
     // Most "big" widgets share a common width settings by default. See 'Demo->Layout->Widgets Width' for details.
     // e.g. Use 2/3 of the space for widgets and 1/3 for labels (right align)
-    //ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.35f);
+    //imgui::PushItemWidth(-imgui::GetWindowWidth() * 0.35f);
     // e.g. Leave a fixed amount of width for labels (by passing a negative value), the rest goes to widgets.
     ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
@@ -387,7 +387,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
 
             ImGui::EndMenu();
         }
-        //if (ImGui::MenuItem("MenuItem")) {} // You can also use MenuItem() inside a menu bar!
+        //if (imgui::MenuItem("MenuItem")) {} // You can also use MenuItem() inside a menu bar!
         if (ImGui::BeginMenu("Tools"))
         {
             IMGUI_DEMO_MARKER("Menu/Tools");
@@ -400,7 +400,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
             ImGui::MenuItem("Debug Log", NULL, &show_tool_debug_log, has_debug_tools);
             ImGui::MenuItem("Stack Tool", NULL, &show_tool_stack_tool, has_debug_tools);
             ImGui::MenuItem("Style Editor", NULL, &show_tool_style_editor);
-            ImGui::MenuItem("About Dear ImGui", NULL, &show_tool_about);
+            ImGui::MenuItem("About Dear imgui", NULL, &show_tool_about);
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
@@ -416,7 +416,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
         ImGui::BulletText("Sections below are demonstrating many aspects of the library.");
         ImGui::BulletText("The \"Examples\" menu above leads to more demo contents.");
         ImGui::BulletText("The \"Tools\" menu above gives access to: About Box, Style Editor,\n"
-                          "and Metrics/Debugger (general purpose Dear ImGui debugging tool).");
+                          "and Metrics/Debugger (general purpose Dear imgui debugging tool).");
 
         ImGui::SeparatorText("PROGRAMMER GUIDE:");
         ImGui::BulletText("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
@@ -461,7 +461,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
             ImGui::Checkbox("io.ConfigInputTrickleEventQueue", &io.ConfigInputTrickleEventQueue);
             ImGui::SameLine(); HelpMarker("Enable input queue trickling: some types of events submitted during the same frame (e.g. button down + up) will be spread over multiple frames, improving interactions with low framerates.");
             ImGui::Checkbox("io.MouseDrawCursor", &io.MouseDrawCursor);
-            ImGui::SameLine(); HelpMarker("Instruct Dear ImGui to render a mouse cursor itself. Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n\nSome desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something).");
+            ImGui::SameLine(); HelpMarker("Instruct Dear imgui to render a mouse cursor itself. Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n\nSome desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something).");
 
             ImGui::SeparatorText("Widgets");
             ImGui::Checkbox("io.ConfigInputTextCursorBlink", &io.ConfigInputTextCursorBlink);
@@ -528,7 +528,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
                 "Try opening any of the contents below in this window and then click one of the \"Log To\" button.");
             ImGui::LogButtons();
 
-            HelpMarker("You can also call ImGui::LogText() to output directly to the log without a visual output.");
+            HelpMarker("You can also call imgui::LogText() to output directly to the log without a visual output.");
             if (ImGui::Button("Copy \"Hello, world!\" to clipboard"))
             {
                 ImGui::LogToClipboard();
@@ -859,7 +859,7 @@ static void ShowDemoWindowWidgets()
     //static ImGuiOnceUponAFrame once;
     //for (int i = 0; i < 5; i++)
     //    if (once)
-    //        ImGui::Text("This will be displayed only once.");
+    //        imgui::Text("This will be displayed only once.");
 
     IMGUI_DEMO_MARKER("Widgets/Trees");
     if (ImGui::TreeNode("Trees"))
@@ -987,8 +987,8 @@ static void ShowDemoWindowWidgets()
                 ImGui::Text("More content %d", i);
         }
         /*
-        if (ImGui::CollapsingHeader("Header with a bullet", ImGuiTreeNodeFlags_Bullet))
-            ImGui::Text("IsItemHovered: %d", ImGui::IsItemHovered());
+        if (imgui::CollapsingHeader("Header with a bullet", ImGuiTreeNodeFlags_Bullet))
+            imgui::Text("IsItemHovered: %d", imgui::IsItemHovered());
         */
         ImGui::TreePop();
     }
@@ -1101,10 +1101,10 @@ static void ShowDemoWindowWidgets()
         // - The imgui_impl_opengl3.cpp renderer expect a GLuint OpenGL texture identifier, etc.
         // More:
         // - If you decided that ImTextureID = MyEngineTexture*, then you can pass your MyEngineTexture* pointers
-        //   to ImGui::Image(), and gather width/height through your own functions, etc.
+        //   to imgui::Image(), and gather width/height through your own functions, etc.
         // - You can use ShowMetricsWindow() to inspect the draw data that are being passed to your renderer,
         //   it will help you debug issues if you are confused about it.
-        // - Consider using the lower-level ImDrawList::AddImage() API, via ImGui::GetWindowDrawList()->AddImage().
+        // - Consider using the lower-level ImDrawList::AddImage() API, via imgui::GetWindowDrawList()->AddImage().
         // - Read https://github.com/ocornut/imgui/blob/master/docs/FAQ.md
         // - Read https://github.com/ocornut/imgui/wiki/Image-Loading-and-Displaying-Examples
         ImTextureID my_tex_id = io.Fonts->TexID;
@@ -1557,7 +1557,7 @@ static void ShowDemoWindowWidgets()
         if (ImGui::TreeNode("Resize Callback"))
         {
             // To wire InputText() with std::string or any other custom string type,
-            // you can use the ImGuiInputTextFlags_CallbackResize flag + create a custom ImGui::InputText() wrapper
+            // you can use the ImGuiInputTextFlags_CallbackResize flag + create a custom imgui::InputText() wrapper
             // using your preferred type. See misc/cpp/imgui_stdlib.h for an implementation of this using std::string.
             HelpMarker(
                 "Using ImGuiInputTextFlags_CallbackResize to wire your custom string type to InputText().\n\n"
@@ -1576,8 +1576,8 @@ static void ShowDemoWindowWidgets()
                     return 0;
                 }
 
-                // Note: Because ImGui:: is a namespace you would typically add your own function into the namespace.
-                // For example, you code may declare a function 'ImGui::InputText(const char* label, MyString* my_str)'
+                // Note: Because imgui:: is a namespace you would typically add your own function into the namespace.
+                // For example, you code may declare a function 'imgui::InputText(const char* label, MyString* my_str)'
                 static bool MyInputTextMultiline(const char* label, ImVector<char>* my_str, const ImVec2& size = ImVec2(0, 0), ImGuiInputTextFlags flags = 0)
                 {
                     IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
@@ -2428,7 +2428,7 @@ static void ShowDemoWindowWidgets()
         static bool item_disabled = false;
         ImGui::Combo("Item Type", &item_type, item_names, IM_ARRAYSIZE(item_names), IM_ARRAYSIZE(item_names));
         ImGui::SameLine();
-        HelpMarker("Testing how various types of items are interacting with the IsItemXXX functions. Note that the bool return value of most ImGui function is generally equivalent to calling ImGui::IsItemHovered().");
+        HelpMarker("Testing how various types of items are interacting with the IsItemXXX functions. Note that the bool return value of most imgui function is generally equivalent to calling imgui::IsItemHovered().");
         ImGui::Checkbox("Item Disabled",  &item_disabled);
 
         // Submit selected items so we can query their status in the code following it.
@@ -2713,7 +2713,7 @@ static void ShowDemoWindowLayout()
         // - Using SetCursorPos() to position child window (the child window is an item from the POV of parent window)
         //   You can also call SetNextWindowPos() to position the child window. The parent window will effectively
         //   layout from this position.
-        // - Using ImGui::GetItemRectMin/Max() to query the "item" state (because the child window is an item from
+        // - Using imgui::GetItemRectMin/Max() to query the "item" state (because the child window is an item from
         //   the POV of the parent window). See 'Demo->Querying Status (Edited/Active/Hovered etc.)' for details.
         {
             static int offset_x = 0;
@@ -2817,7 +2817,7 @@ static void ShowDemoWindowLayout()
     IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout");
     if (ImGui::TreeNode("Basic Horizontal Layout"))
     {
-        ImGui::TextWrapped("(Use ImGui::SameLine() to keep adding items to the right of the preceding item)");
+        ImGui::TextWrapped("(Use imgui::SameLine() to keep adding items to the right of the preceding item)");
 
         // Text
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout/SameLine");
@@ -2877,7 +2877,7 @@ static void ShowDemoWindowLayout()
             ImGui::PushID(i);
             ImGui::ListBox("", &selection[i], items, IM_ARRAYSIZE(items));
             ImGui::PopID();
-            //ImGui::SetItemTooltip("ListBox %d hovered", i);
+            //imgui::SetItemTooltip("ListBox %d hovered", i);
         }
         ImGui::PopItemWidth();
 
@@ -3369,8 +3369,8 @@ static void ShowDemoWindowLayout()
         ImGui::TextWrapped("(Click and drag to scroll)");
 
         HelpMarker(
-            "(Left) Using ImGui::PushClipRect():\n"
-            "Will alter ImGui hit-testing logic + ImDrawList rendering.\n"
+            "(Left) Using imgui::PushClipRect():\n"
+            "Will alter imgui hit-testing logic + ImDrawList rendering.\n"
             "(use this if you want your clipping rectangle to affect interactions)\n\n"
             "(Center) Using ImDrawList::PushClipRect():\n"
             "Will alter ImDrawList rendering only.\n"
@@ -3465,7 +3465,7 @@ static void ShowDemoWindowPopups()
     // The properties of popups windows are:
     // - They block normal mouse hovering detection outside them. (*)
     // - Unless modal, they can be closed by clicking anywhere outside them, or by pressing ESCAPE.
-    // - Their visibility state (~bool) is held internally by Dear ImGui instead of being held by the programmer as
+    // - Their visibility state (~bool) is held internally by Dear imgui instead of being held by the programmer as
     //   we are used to with regular Begin() calls. User can manipulate the visibility state by calling OpenPopup().
     // (*) One can use IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) to bypass it and detect hovering even
     //     when normally blocked by a popup.
@@ -3473,9 +3473,9 @@ static void ShowDemoWindowPopups()
     // popups at any time.
 
     // Typical use for regular windows:
-    //   bool my_tool_is_active = false; if (ImGui::Button("Open")) my_tool_is_active = true; [...] if (my_tool_is_active) Begin("My Tool", &my_tool_is_active) { [...] } End();
+    //   bool my_tool_is_active = false; if (imgui::Button("Open")) my_tool_is_active = true; [...] if (my_tool_is_active) Begin("My Tool", &my_tool_is_active) { [...] } End();
     // Typical use for popups:
-    //   if (ImGui::Button("Open")) ImGui::OpenPopup("MyPopup"); if (ImGui::BeginPopup("MyPopup") { [...] EndPopup(); }
+    //   if (imgui::Button("Open")) imgui::OpenPopup("MyPopup"); if (imgui::BeginPopup("MyPopup") { [...] EndPopup(); }
 
     // With popups we have to go through a library call (here OpenPopup) to manipulate the visibility state.
     // This may be a bit confusing at first but it should quickly make sense. Follow on the examples below.
@@ -3678,7 +3678,7 @@ static void ShowDemoWindowPopups()
             ImGui::Separator();
 
             //static int unused_i = 0;
-            //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+            //imgui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
 
             static bool dont_ask_me_next_time = false;
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -3781,7 +3781,7 @@ struct MyItem
     // however qsort doesn't allow passing user data to comparing function.
     // As a workaround, we are storing the sort specs in a static/global for the comparing function to access.
     // In your own use case you would probably pass the sort specs to your sorting/comparing functions directly and not use a global.
-    // We could technically call ImGui::TableGetSortSpecs() in CompareWithSortSpecs(), but considering that this function is called
+    // We could technically call imgui::TableGetSortSpecs() in CompareWithSortSpecs(), but considering that this function is called
     // very often by the sorting algorithm it would be a little wasteful.
     static const ImGuiTableSortSpecs* s_current_sort_specs;
 
@@ -3915,7 +3915,7 @@ static void ShowTableColumnsStatusFlags(ImGuiTableColumnFlags flags)
 
 static void ShowDemoWindowTables()
 {
-    //ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    //imgui::SetNextItemOpen(true, ImGuiCond_Once);
     IMGUI_DEMO_MARKER("Tables");
     if (!ImGui::CollapsingHeader("Tables & Columns"))
         return;
@@ -4315,8 +4315,8 @@ static void ShowDemoWindowTables()
                         sprintf(buf, "Hello %d,%d", column, row);
                         ImGui::Button(buf, ImVec2(-FLT_MIN, 0.0f));
                     }
-                    //if (ImGui::TableGetColumnFlags() & ImGuiTableColumnFlags_IsHovered)
-                    //    ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, IM_COL32(0, 100, 0, 255));
+                    //if (imgui::TableGetColumnFlags() & ImGuiTableColumnFlags_IsHovered)
+                    //    imgui::TableSetBgColor(ImGuiTableBgTarget_CellBg, IM_COL32(0, 100, 0, 255));
                 }
             }
             ImGui::EndTable();
@@ -4936,7 +4936,7 @@ static void ShowDemoWindowTables()
             {
                 ImGui::TableNextRow();
 
-                // Demonstrate setting a row background color with 'ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBgX, ...)'
+                // Demonstrate setting a row background color with 'imgui::TableSetBgColor(ImGuiTableBgTarget_RowBgX, ...)'
                 // We use a transparent color so we can see the one behind in case our target is RowBg1 and RowBg0 was already targeted by the ImGuiTableFlags_RowBg flag.
                 if (row_bg_type != 0)
                 {
@@ -4951,7 +4951,7 @@ static void ShowDemoWindowTables()
                     ImGui::Text("%c%c", 'A' + row, '0' + column);
 
                     // Change background of Cells B1->C2
-                    // Demonstrate setting a cell background color with 'ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ...)'
+                    // Demonstrate setting a cell background color with 'imgui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ...)'
                     // (the CellBg color will be blended over the RowBg and ColumnBg colors)
                     // We can also pass a column number as a third parameter to TableSetBgColor() and do this outside the column loop.
                     if (row >= 1 && row <= 2 && column >= 1 && column <= 2 && cell_bg_type == 1)
@@ -5364,7 +5364,7 @@ static void ShowDemoWindowTables()
     // In this example we'll expose most table flags and settings.
     // For specific flags and settings refer to the corresponding section for more detailed explanation.
     // This section is mostly useful to renderer with combining certain flags or settings with each others.
-    //ImGui::SetNextItemOpen(true, ImGuiCond_Once); // [DEBUG]
+    //imgui::SetNextItemOpen(true, ImGuiCond_Once); // [DEBUG]
     if (open_action != -1)
         ImGui::SetNextItemOpen(open_action != 0);
     IMGUI_DEMO_MARKER("Tables/Advanced");
@@ -5390,7 +5390,7 @@ static void ShowDemoWindowTables()
         static bool show_headers = true;
         static bool show_wrapped_text = false;
         //static ImGuiTextFilter filter;
-        //ImGui::SetNextItemOpen(true, ImGuiCond_Once); // FIXME-TABLE: Enabling this results in initial clipped first pass on table which tend to affect column sizing
+        //imgui::SetNextItemOpen(true, ImGuiCond_Once); // FIXME-TABLE: Enabling this results in initial clipped first pass on table which tend to affect column sizing
         if (ImGui::TreeNode("Options"))
         {
             // Make the UI compact because there are so many fields
@@ -5701,7 +5701,7 @@ static void ShowDemoWindowColumns()
             char label[32];
             sprintf(label, "Item %d", n);
             if (ImGui::Selectable(label)) {}
-            //if (ImGui::Button(label, ImVec2(-FLT_MIN,0.0f))) {}
+            //if (imgui::Button(label, ImVec2(-FLT_MIN,0.0f))) {}
             ImGui::NextColumn();
         }
         ImGui::Columns(1);
@@ -5781,7 +5781,7 @@ static void ShowDemoWindowColumns()
         ImGui::Button("Banana");
         ImGui::NextColumn();
 
-        ImGui::Text("ImGui");
+        ImGui::Text("imgui");
         ImGui::Button("Apple");
         static float foo = 1.0f;
         ImGui::InputFloat("red", &foo, 0.05f, 0, "%.3f");
@@ -5931,10 +5931,10 @@ static void ShowDemoWindowInputs()
         if (ImGui::TreeNode("Outputs"))
         {
             HelpMarker(
-                "The value of io.WantCaptureMouse and io.WantCaptureKeyboard are normally set by Dear ImGui "
+                "The value of io.WantCaptureMouse and io.WantCaptureKeyboard are normally set by Dear imgui "
                 "to instruct your application of how to route inputs. Typically, when a value is true, it means "
-                "Dear ImGui wants the corresponding inputs and we expect the underlying application to ignore them.\n\n"
-                "The most typical case is: when hovering a window, Dear ImGui set io.WantCaptureMouse to true, "
+                "Dear imgui wants the corresponding inputs and we expect the underlying application to ignore them.\n\n"
+                "The most typical case is: when hovering a window, Dear imgui set io.WantCaptureMouse to true, "
                 "and underlying application should ignore mouse inputs (in practice there are many and more subtle "
                 "rules leading to how those flags are set).");
             ImGui::Text("io.WantCaptureMouse: %d", io.WantCaptureMouse);
@@ -5984,8 +5984,8 @@ static void ShowDemoWindowInputs()
 
             ImGui::Text("Hover to see mouse cursors:");
             ImGui::SameLine(); HelpMarker(
-                "Your application can render a different mouse cursor based on what ImGui::GetMouseCursor() returns. "
-                "If software cursor rendering (io.MouseDrawCursor) is set ImGui will draw the right cursor for you, "
+                "Your application can render a different mouse cursor based on what imgui::GetMouseCursor() returns. "
+                "If software cursor rendering (io.MouseDrawCursor) is set imgui will draw the right cursor for you, "
                 "otherwise your backend needs to handle it.");
             for (int i = 0; i < ImGuiMouseCursor_COUNT; i++)
             {
@@ -6059,7 +6059,7 @@ static void ShowDemoWindowInputs()
         IMGUI_DEMO_MARKER("Inputs & Focus/Dragging");
         if (ImGui::TreeNode("Dragging"))
         {
-            ImGui::TextWrapped("You can use ImGui::GetMouseDragDelta(0) to query for the dragged amount on any widget.");
+            ImGui::TextWrapped("You can use imgui::GetMouseDragDelta(0) to query for the dragged amount on any widget.");
             for (int button = 0; button < 3; button++)
             {
                 ImGui::Text("IsMouseDragging(%d):", button);
@@ -6089,21 +6089,21 @@ static void ShowDemoWindowInputs()
 
 //-----------------------------------------------------------------------------
 // [SECTION] About Window / ShowAboutWindow()
-// Access from Dear ImGui Demo -> Tools -> About
+// Access from Dear imgui Demo -> Tools -> About
 //-----------------------------------------------------------------------------
 
 void ImGui::ShowAboutWindow(bool* p_open)
 {
-    if (!ImGui::Begin("About Dear ImGui", p_open, ImGuiWindowFlags_AlwaysAutoResize))
+    if (!ImGui::Begin("About Dear imgui", p_open, ImGuiWindowFlags_AlwaysAutoResize))
     {
         ImGui::End();
         return;
     }
-    IMGUI_DEMO_MARKER("Tools/About Dear ImGui");
-    ImGui::Text("Dear ImGui %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
+    IMGUI_DEMO_MARKER("Tools/About Dear imgui");
+    ImGui::Text("Dear imgui %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
     ImGui::Separator();
-    ImGui::Text("By Omar Cornut and all Dear ImGui contributors.");
-    ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
+    ImGui::Text("By Omar Cornut and all Dear imgui contributors.");
+    ImGui::Text("Dear imgui is licensed under the MIT License, see LICENSE for more information.");
     ImGui::Text("If your company uses this, please consider sponsoring the project!");
 
     static bool show_config_info = false;
@@ -6122,42 +6122,42 @@ void ImGui::ShowAboutWindow(bool* p_open)
             ImGui::LogText("```\n"); // Back quotes will make text appears without formatting when pasting on GitHub
         }
 
-        ImGui::Text("Dear ImGui %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
+        ImGui::Text("Dear imgui %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
         ImGui::Separator();
         ImGui::Text("sizeof(size_t): %d, sizeof(ImDrawIdx): %d, sizeof(ImDrawVert): %d", (int)sizeof(size_t), (int)sizeof(ImDrawIdx), (int)sizeof(ImDrawVert));
         ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
 #ifdef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_OBSOLETE_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_OBSOLETE_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_OBSOLETE_KEYIO
-        ImGui::Text("define: IMGUI_DISABLE_OBSOLETE_KEYIO");
+        imgui::Text("define: IMGUI_DISABLE_OBSOLETE_KEYIO");
 #endif
 #ifdef IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_WIN32_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_WIN32_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_WIN32_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_DEFAULT_FORMAT_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_DEFAULT_FORMAT_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_DEFAULT_FORMAT_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_DEFAULT_MATH_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_DEFAULT_MATH_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_DEFAULT_MATH_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_DEFAULT_FILE_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_DEFAULT_FILE_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_DEFAULT_FILE_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_FILE_FUNCTIONS
-        ImGui::Text("define: IMGUI_DISABLE_FILE_FUNCTIONS");
+        imgui::Text("define: IMGUI_DISABLE_FILE_FUNCTIONS");
 #endif
 #ifdef IMGUI_DISABLE_DEFAULT_ALLOCATORS
-        ImGui::Text("define: IMGUI_DISABLE_DEFAULT_ALLOCATORS");
+        imgui::Text("define: IMGUI_DISABLE_DEFAULT_ALLOCATORS");
 #endif
 #ifdef IMGUI_USE_BGRA_PACKED_COLOR
-        ImGui::Text("define: IMGUI_USE_BGRA_PACKED_COLOR");
+        imgui::Text("define: IMGUI_USE_BGRA_PACKED_COLOR");
 #endif
 #ifdef _WIN32
         ImGui::Text("define: _WIN32");
@@ -6166,10 +6166,10 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: _WIN64");
 #endif
 #ifdef __linux__
-        ImGui::Text("define: __linux__");
+        imgui::Text("define: __linux__");
 #endif
 #ifdef __APPLE__
-        ImGui::Text("define: __APPLE__");
+        imgui::Text("define: __APPLE__");
 #endif
 #ifdef _MSC_VER
         ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
@@ -6178,19 +6178,19 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: _MSVC_LANG=%d", (int)_MSVC_LANG);
 #endif
 #ifdef __MINGW32__
-        ImGui::Text("define: __MINGW32__");
+        imgui::Text("define: __MINGW32__");
 #endif
 #ifdef __MINGW64__
-        ImGui::Text("define: __MINGW64__");
+        imgui::Text("define: __MINGW64__");
 #endif
 #ifdef __GNUC__
-        ImGui::Text("define: __GNUC__=%d", (int)__GNUC__);
+        imgui::Text("define: __GNUC__=%d", (int)__GNUC__);
 #endif
 #ifdef __clang_version__
-        ImGui::Text("define: __clang_version__=%s", __clang_version__);
+        imgui::Text("define: __clang_version__=%s", __clang_version__);
 #endif
 #ifdef __EMSCRIPTEN__
-        ImGui::Text("define: __EMSCRIPTEN__");
+        imgui::Text("define: __EMSCRIPTEN__");
 #endif
         ImGui::Separator();
         ImGui::Text("io.BackendPlatformName: %s", io.BackendPlatformName ? io.BackendPlatformName : "NULL");
@@ -6410,7 +6410,7 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
                     ImGui::LogToClipboard();
                 else
                     ImGui::LogToTTY();
-                ImGui::LogText("ImVec4* colors = ImGui::GetStyle().Colors;" IM_NEWLINE);
+                ImGui::LogText("ImVec4* colors = imgui::GetStyle().Colors;" IM_NEWLINE);
                 for (int i = 0; i < ImGuiCol_COUNT; i++)
                 {
                     const ImVec4& col = style.Colors[i];
@@ -6534,9 +6534,9 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
                     ImGui::Dummy(ImVec2(canvas_width, RAD_MAX * 2));
 
                     /*
-                    const ImVec2 p2 = ImGui::GetCursorScreenPos();
-                    draw_list->AddCircleFilled(ImVec2(p2.x + offset_x, p2.y + offset_y), rad, ImGui::GetColorU32(ImGuiCol_Text));
-                    ImGui::Dummy(ImVec2(canvas_width, RAD_MAX * 2));
+                    const ImVec2 p2 = imgui::GetCursorScreenPos();
+                    draw_list->AddCircleFilled(ImVec2(p2.x + offset_x, p2.y + offset_y), rad, imgui::GetColorU32(ImGuiCol_Text));
+                    imgui::Dummy(ImVec2(canvas_width, RAD_MAX * 2));
                     */
 
                     ImGui::EndGroup();
@@ -6742,7 +6742,7 @@ struct ExampleAppConsole
         Commands.push_back("CLASSIFY");
         AutoScroll = true;
         ScrollToBottom = false;
-        AddLog("Welcome to Dear ImGui!");
+        AddLog("Welcome to Dear imgui!");
     }
     ~ExampleAppConsole()
     {
@@ -6809,7 +6809,7 @@ struct ExampleAppConsole
         if (ImGui::SmallButton("Clear"))           { ClearLog(); }
         ImGui::SameLine();
         bool copy_to_clipboard = ImGui::SmallButton("Copy");
-        //static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
+        //static float t = 0.0f; if (imgui::GetTime() - t > 0.02f) { t = imgui::GetTime(); AddLog("Spam %f", t); }
 
         ImGui::Separator();
 
@@ -6838,7 +6838,7 @@ struct ExampleAppConsole
             }
 
             // Display every line as a separate entry so we can change their color or add custom widgets.
-            // If you only want raw text you can use ImGui::TextUnformatted(log.begin(), log.end());
+            // If you only want raw text you can use imgui::TextUnformatted(log.begin(), log.end());
             // NB- if you have thousands of entries this approach may be too inefficient and may require user-side clipping
             // to only process visible items. The clipper will automatically measure the height of your first item and then
             // "seek" to display only items in the visible area.
@@ -7167,7 +7167,7 @@ struct ExampleAppLog
             else
             {
                 // The simplest and easy way to display the entire buffer:
-                //   ImGui::TextUnformatted(buf_begin, buf_end);
+                //   imgui::TextUnformatted(buf_begin, buf_end);
                 // And it'll just work. TextUnformatted() has specialization for large blob of text and will fast-forward
                 // to skip non-visible lines. Here we instead demonstrate using the clipper to only process lines that are
                 // within the visible area.
@@ -7704,7 +7704,7 @@ static void ShowExampleAppCustomRendering(bool* p_open)
 
     // Tip: If you do a lot of custom rendering, you probably want to use your own geometrical types and benefit of
     // overloaded operators, etc. Define IM_VEC2_CLASS_EXTRA in imconfig.h to create implicit conversions between your
-    // types and ImVec2/ImVec4. Dear ImGui defines overloaded operators but they are internal to imgui.cpp and not
+    // types and ImVec2/ImVec4. Dear imgui defines overloaded operators but they are internal to imgui.cpp and not
     // exposed outside (to avoid messing with your types) In this example we are not using the maths operators!
 
     if (ImGui::BeginTabBar("##TabBar"))
@@ -7716,7 +7716,7 @@ static void ShowExampleAppCustomRendering(bool* p_open)
 
             // Draw gradients
             // (note that those are currently exacerbating our sRGB/Linear issues)
-            // Calling ImGui::GetColorU32() multiplies the given colors by the current Style Alpha, but you may pass the IM_COL32() directly as well..
+            // Calling imgui::GetColorU32() multiplies the given colors by the current Style Alpha, but you may pass the IM_COL32() directly as well..
             ImGui::Text("Gradients");
             ImVec2 gradient_size = ImVec2(ImGui::CalcItemWidth(), ImGui::GetFrameHeight());
             {
@@ -7824,13 +7824,13 @@ static void ShowExampleAppCustomRendering(bool* p_open)
             // Typically you would use a BeginChild()/EndChild() pair to benefit from a clipping region + own scrolling.
             // Here we demonstrate that this can be replaced by simple offsetting + custom drawing + PushClipRect/PopClipRect() calls.
             // To use a child window instead we could use, e.g:
-            //      ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));      // Disable padding
-            //      ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(50, 50, 50, 255));  // Set a background color
-            //      ImGui::BeginChild("canvas", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_NoMove);
-            //      ImGui::PopStyleColor();
-            //      ImGui::PopStyleVar();
+            //      imgui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));      // Disable padding
+            //      imgui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(50, 50, 50, 255));  // Set a background color
+            //      imgui::BeginChild("canvas", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_NoMove);
+            //      imgui::PopStyleColor();
+            //      imgui::PopStyleVar();
             //      [...]
-            //      ImGui::EndChild();
+            //      imgui::EndChild();
 
             // Using InvisibleButton() as a convenience 1) it will advance the layout cursor and 2) allows us to use IsItemHovered()/IsItemActive()
             ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
@@ -7911,9 +7911,9 @@ static void ShowExampleAppCustomRendering(bool* p_open)
             static bool draw_bg = true;
             static bool draw_fg = true;
             ImGui::Checkbox("Draw in Background draw list", &draw_bg);
-            ImGui::SameLine(); HelpMarker("The Background draw list will be rendered below every Dear ImGui windows.");
+            ImGui::SameLine(); HelpMarker("The Background draw list will be rendered below every Dear imgui windows.");
             ImGui::Checkbox("Draw in Foreground draw list", &draw_fg);
-            ImGui::SameLine(); HelpMarker("The Foreground draw list will be rendered over every Dear ImGui windows.");
+            ImGui::SameLine(); HelpMarker("The Foreground draw list will be rendered over every Dear imgui windows.");
             ImVec2 window_pos = ImGui::GetWindowPos();
             ImVec2 window_size = ImGui::GetWindowSize();
             ImVec2 window_center = ImVec2(window_pos.x + window_size.x * 0.5f, window_pos.y + window_size.y * 0.5f);
@@ -8135,8 +8135,8 @@ void ShowExampleAppDocuments(bool* p_open)
                 NotifyOfDocumentsClosedElsewhere(app);
 
             // [DEBUG] Stress tests
-            //if ((ImGui::GetFrameCount() % 30) == 0) docs[1].Open ^= 1;            // [DEBUG] Automatically show/hide a tab. Test various interactions e.g. dragging with this on.
-            //if (ImGui::GetIO().KeyCtrl) ImGui::SetTabItemSelected(docs[1].Name);  // [DEBUG] Test SetTabItemSelected(), probably not very useful as-is anyway..
+            //if ((imgui::GetFrameCount() % 30) == 0) docs[1].Open ^= 1;            // [DEBUG] Automatically show/hide a tab. Test various interactions e.g. dragging with this on.
+            //if (imgui::GetIO().KeyCtrl) imgui::SetTabItemSelected(docs[1].Name);  // [DEBUG] Test SetTabItemSelected(), probably not very useful as-is anyway..
 
             // Submit Tabs
             for (MyDocument& doc : app.Documents)
@@ -8247,10 +8247,10 @@ void ShowExampleAppDocuments(bool* p_open)
 // End of Demo code
 #else
 
-void ImGui::ShowAboutWindow(bool*) {}
-void ImGui::ShowDemoWindow(bool*) {}
-void ImGui::ShowUserGuide() {}
-void ImGui::ShowStyleEditor(ImGuiStyle*) {}
+void imgui::ShowAboutWindow(bool*) {}
+void imgui::ShowDemoWindow(bool*) {}
+void imgui::ShowUserGuide() {}
+void imgui::ShowStyleEditor(ImGuiStyle*) {}
 
 #endif
 

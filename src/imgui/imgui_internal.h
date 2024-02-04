@@ -1,7 +1,7 @@
 // dear imgui, v1.89.9
 // (internal structures/api)
 
-// You may use this file to debug, understand or extend Dear ImGui features but we don't provide any guarantee of forward compatibility.
+// You may use this file to debug, understand or extend Dear imgui features but we don't provide any guarantee of forward compatibility.
 // To implement maths operators for ImVec2 (disabled by default to not conflict with using IM_VEC2_CLASS_EXTRA with your own math types+operators), use:
 /*
 #define IMGUI_DEFINE_MATH_OPERATORS
@@ -35,7 +35,7 @@ Index of this file:
 // [SECTION] ImGuiWindowTempData, ImGuiWindow
 // [SECTION] Tab bar, Tab item support
 // [SECTION] Table support
-// [SECTION] ImGui internal API
+// [SECTION] imgui internal API
 // [SECTION] ImFontAtlas internal API
 // [SECTION] Test Engine specific hooks (imgui_test_engine)
 
@@ -124,7 +124,7 @@ struct ImRect;                      // An axis-aligned rectangle (2 points)
 struct ImDrawDataBuilder;           // Helper to build a ImDrawData instance
 struct ImDrawListSharedData;        // Data shared between all ImDrawList instances
 struct ImGuiColorMod;               // Stacked color modifier, backup of modified data so we can restore it
-struct ImGuiContext;                // Main Dear ImGui context
+struct ImGuiContext;                // Main Dear imgui context
 struct ImGuiContextHook;            // Hook for extensions like ImGuiTestEngine
 struct ImGuiDataVarInfo;            // Variable information (e.g. to avoid style variables from an enum)
 struct ImGuiDataTypeInfo;           // Type information associated to a ImGuiDataType enum
@@ -307,8 +307,8 @@ namespace ImStb
 
 //-----------------------------------------------------------------------------
 // [SECTION] Generic helpers
-// Note that the ImXXX helpers functions are lower-level than ImGui functions.
-// ImGui functions or the ImGui context are never called/used from other ImXXX functions.
+// Note that the ImXXX helpers functions are lower-level than imgui functions.
+// imgui functions or the imgui context are never called/used from other ImXXX functions.
 //-----------------------------------------------------------------------------
 // - Helpers: Hashing
 // - Helpers: Sorting
@@ -747,7 +747,7 @@ struct ImGuiTextIndex
 #define IM_DRAWLIST_ARCFAST_SAMPLE_MAX                          IM_DRAWLIST_ARCFAST_TABLE_SIZE // Sample index _PathArcToFastEx() for 360 angle.
 
 // Data shared between all ImDrawList instances
-// You may want to create your own instance of this if you want to use ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.
+// You may want to create your own instance of this if you want to use ImDrawList completely without imgui. In that case, watch out for future changes to this structure.
 struct IMGUI_API ImDrawListSharedData
 {
     ImVec2          TexUvWhitePixel;            // UV of white pixel in the atlas
@@ -1081,7 +1081,7 @@ struct IMGUI_API ImGuiInputTextDeactivatedState
     void    ClearFreeMemory()           { ID = 0; TextA.clear(); }
 };
 // Internal state of the currently focused/edited text input box
-// For a given item ID, access with ImGui::GetInputTextState()
+// For a given item ID, access with imgui::GetInputTextState()
 struct IMGUI_API ImGuiInputTextState
 {
     ImGuiContext*           Ctx;                    // parent UI context (needs to be set explicitly by parent).
@@ -1375,7 +1375,7 @@ struct ImGuiKeyOwnerData
 };
 
 // Flags for extended versions of IsKeyPressed(), IsMouseClicked(), Shortcut(), SetKeyOwner(), SetItemKeyOwner()
-// Don't mistake with ImGuiInputTextFlags! (for ImGui::InputText() function)
+// Don't mistake with ImGuiInputTextFlags! (for imgui::InputText() function)
 enum ImGuiInputFlags_
 {
     // Flags for IsKeyPressed(), IsMouseClicked(), Shortcut()
@@ -1412,7 +1412,7 @@ enum ImGuiInputFlags_
     ImGuiInputFlags_RouteGlobalHigh     = 1 << 11,  // Register route globally (highest priority: unlikely you need to use that: will interfere with every active items)
     ImGuiInputFlags_RouteMask_          = ImGuiInputFlags_RouteFocused | ImGuiInputFlags_RouteGlobal | ImGuiInputFlags_RouteGlobalLow | ImGuiInputFlags_RouteGlobalHigh, // _Always not part of this!
     ImGuiInputFlags_RouteAlways         = 1 << 12,  // Do not register route, poll keys directly.
-    ImGuiInputFlags_RouteUnlessBgFocused= 1 << 13,  // Global routes will not be applied if underlying background/void is focused (== no Dear ImGui windows are focused). Useful for overlay applications.
+    ImGuiInputFlags_RouteUnlessBgFocused= 1 << 13,  // Global routes will not be applied if underlying background/void is focused (== no Dear imgui windows are focused). Useful for overlay applications.
     ImGuiInputFlags_RouteExtraMask_     = ImGuiInputFlags_RouteAlways | ImGuiInputFlags_RouteUnlessBgFocused,
 
     // [Internal] Mask of which function support which flags
@@ -1770,7 +1770,7 @@ struct ImGuiContextHook
 };
 
 //-----------------------------------------------------------------------------
-// [SECTION] ImGuiContext (main Dear ImGui context)
+// [SECTION] ImGuiContext (main Dear imgui context)
 //-----------------------------------------------------------------------------
 
 struct ImGuiContext
@@ -2769,7 +2769,7 @@ struct ImGuiTableSettings
 };
 
 //-----------------------------------------------------------------------------
-// [SECTION] ImGui internal API
+// [SECTION] imgui internal API
 // No guarantee of forward compatibility here!
 //-----------------------------------------------------------------------------
 
@@ -2778,8 +2778,8 @@ namespace ImGui
     // Windows
     // We should always have a CurrentWindow in the stack (there is an implicit "Debug" window)
     // If this ever crash because g.CurrentWindow is NULL it means that either
-    // - ImGui::NewFrame() has never been called, which is illegal.
-    // - You are calling ImGui functions after ImGui::EndFrame()/ImGui::Render() and before the next ImGui::NewFrame(), which is also illegal.
+    // - imgui::NewFrame() has never been called, which is illegal.
+    // - You are calling imgui functions after imgui::EndFrame()/imgui::Render() and before the next imgui::NewFrame(), which is also illegal.
     inline    ImGuiWindow*  GetCurrentWindowRead()      { ImGuiContext& g = *GImGui; return g.CurrentWindow; }
     inline    ImGuiWindow*  GetCurrentWindow()          { ImGuiContext& g = *GImGui; g.CurrentWindow->WriteAccessed = true; return g.CurrentWindow; }
     IMGUI_API ImGuiWindow*  FindWindowByID(ImGuiID id);
@@ -3158,7 +3158,7 @@ namespace ImGui
     IMGUI_API const char*   FindRenderedTextEnd(const char* text, const char* text_end = NULL); // Find the optional ## from which we stop displaying text.
     IMGUI_API void          RenderMouseCursor(ImVec2 pos, float scale, ImGuiMouseCursor mouse_cursor, ImU32 col_fill, ImU32 col_border, ImU32 col_shadow);
 
-    // Render helpers (those functions don't access any ImGui state!)
+    // Render helpers (those functions don't access any imgui state!)
     IMGUI_API void          RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir dir, float scale = 1.0f);
     IMGUI_API void          RenderBullet(ImDrawList* draw_list, ImVec2 pos, ImU32 col);
     IMGUI_API void          RenderCheckMark(ImDrawList* draw_list, ImVec2 pos, ImU32 col, float sz);
@@ -3291,7 +3291,7 @@ namespace ImGui
     inline bool     IsKeyPressedMap(ImGuiKey key, bool repeat = true)                   { IM_ASSERT(IsNamedKey(key)); return IsKeyPressed(key, repeat); } // Removed in 1.87: Mapping from named key is always identity!
 #endif
 
-} // namespace ImGui
+} // namespace imgui
 
 
 //-----------------------------------------------------------------------------
