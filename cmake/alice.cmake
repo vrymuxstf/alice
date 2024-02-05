@@ -7,14 +7,47 @@ function(add_target_dll target)
 
 endfunction()
 
+function(get_targets target out_targets)
+    list(APPEND targets ${target})
+
+    get_target_property(link_libs ${target} INTERFACE_LINK_LIBRARIES)
+
+    if (link_libs)
+        foreach (link_lib IN LISTS link_libs)
+
+            if (TARGET ${link_lib})
+                list(APPEND targets ${link_lib})
+
+                get_targets(${link_lib} ${link_lib}_targets)
+
+                list(APPEND targets ${${link_lib}_targets})
+            endif ()
+
+        endforeach ()
+    endif ()
+
+    list(REMOVE_DUPLICATES targets)
+
+    set(${out_targets} ${targets} PARENT_SCOPE)
+endfunction()
+
 function(collect_dlls target)
 
-    get_target_property(dlls ${target} ALICE_DLLS)
+    get_targets(${target} required_targets)
 
-    foreach (dll IN LISTS dlls)
-        get_filename_component(dll_name ${dll} NAME)
+    foreach (required_target IN LISTS required_targets)
 
-        list(APPEND commands COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dll} "$<TARGET_FILE_DIR:${target}>/${dll_name}")
+        get_target_property(dlls ${required_target} ALICE_DLLS)
+
+        if(NOT ${dlls} STREQUAL "dlls-NOTFOUND")
+
+            foreach (dll IN LISTS dlls)
+                get_filename_component(dll_name ${dll} NAME)
+
+                list(APPEND commands COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dll} "$<TARGET_FILE_DIR:${target}>/${dll_name}")
+            endforeach ()
+        endif ()
+
     endforeach ()
 
     add_custom_target(
