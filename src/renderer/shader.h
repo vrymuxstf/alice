@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "singleton.h"
+#include <glm/glm.hpp>
 
 namespace alice {
     class Shader {
@@ -12,6 +12,6 @@ namespace alice {
 
         void Use() const;
 
-        [[nodiscard]] uint32_t GetProgram() const { return program_; }
+        void SetMat4(const char *name, const glm::mat4 &value) const;
     };
 }
