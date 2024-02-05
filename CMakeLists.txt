@@ -3,6 +3,8 @@ project(alice)
 
 set(CMAKE_CXX_STANDARD 23)
 
+include(cmake/alice.cmake)
+
 add_subdirectory(src/renderer)
 add_subdirectory(src/glad)
 add_subdirectory(src/glfw-3.3.8)

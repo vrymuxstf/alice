@@ -11,7 +11,7 @@
 
 namespace alice {
     class Engine {
-        GLFWwindow *window;
+        GLFWwindow *window_;
         ObjectList<RenderObject> render_object_list_;
         double last_time_ = 0;
     public:
