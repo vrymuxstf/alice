@@ -9,12 +9,12 @@ namespace alice {
         unsigned int vbo_{};
         CubeMap cube_map_{
                 {
-                        "right.jpg",
-                        "left.jpg",
-                        "top.jpg",
-                        "bottom.jpg",
-                        "front.jpg",
-                        "back.jpg"
+                        "assets/right.jpg",
+                        "assets/left.jpg",
+                        "assets/top.jpg",
+                        "assets/bottom.jpg",
+                        "assets/front.jpg",
+                        "assets/back.jpg"
                 }
         };
     public:
