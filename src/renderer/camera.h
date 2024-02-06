@@ -20,15 +20,16 @@ namespace alice {
         glm::vec3 position{0.0f, 0.0f, 10.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
-        [[nodiscard]] glm::mat4 GetViewProjection() const {
-            glm::mat4 projection = glm::perspective(
-                    glm::radians(45.0f),
-                    (float) width / (float) height,
-                    0.1f,
-                    100.f
-            );
-            glm::mat4 view = glm::lookAt(position, position + GetFront(), {0.0f, 1.0f, 0});
-            return projection * view;
+        [[nodiscard]] glm::quat GetOrientation() const {
+            glm::quat pitch = glm::angleAxis(glm::radians(rotation.x), glm::vec3(1, 0, 0));
+            glm::quat yaw = glm::angleAxis(glm::radians(rotation.y), glm::vec3(0, 1, 0));
+            glm::quat roll = glm::angleAxis(glm::radians(rotation.z),glm::vec3(0,0,1));
+
+            return glm::normalize(pitch * yaw);
+        }
+
+        [[nodiscard]] glm::mat4 GetView() const {
+            return glm::mat4_cast(GetOrientation());
         }
 
         [[nodiscard]] glm::mat4 GetProjection() const {
@@ -40,15 +41,8 @@ namespace alice {
             );
         }
 
-        [[nodiscard]] glm::mat4 GetView() const {
-            return glm::lookAt(position, position + GetFront(), {0.0f, 1.0f, 0});
-        }
-
-        [[nodiscard]] glm::quat GetOrientation() const {
-            glm::quat pitch = glm::angleAxis(glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-            glm::quat yaw = glm::angleAxis(glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-
-            return yaw * pitch;
+        [[nodiscard]] glm::mat4 GetViewProjection() const {
+            return GetProjection() * GetView();
         }
 
         [[nodiscard]] glm::vec3 GetFront() const {
