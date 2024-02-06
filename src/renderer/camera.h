@@ -17,7 +17,7 @@ namespace alice {
 
         int width = 1;
         int height = 1;
-        glm::vec3 position{0.0f, 0.0f, 10.0f};
+        glm::vec3 position{0.0f, 0.0f, -10.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
         [[nodiscard]] glm::quat GetOrientation() const {

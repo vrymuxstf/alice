@@ -45,7 +45,7 @@ namespace alice {
         ImGui_ImplOpenGL3_Init();
 #endif
 
-/*        {
+        {
             float vertices[] = {
                     -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
                     0.5f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f,
@@ -69,11 +69,11 @@ namespace alice {
             float vertices[] = {
                     -0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
                     0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    0.0f, 0.75f, -0.85f, 1.0f, 1.0f, 1.0f, 1.0f
+                    0.0f, 0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f
             };
 
             render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
-        }*/
+        }
 
         render_object_list_.Create<SkyboxRenderObject>();
 
@@ -111,10 +111,10 @@ namespace alice {
         glfwGetFramebufferSize(window_, &width, &height);
 
         if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-            Camera::Singleton().rotation.x += (float) (DeltaTime * cursor_pos_y_offset * 100);
+            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 100);
             Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
 
-            std::cout << cursor_pos_y_offset << std::endl;
+            std::cout << Camera::Singleton().rotation.y << std::endl;
         }
 
         Camera::Singleton().width = width;
