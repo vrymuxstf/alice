@@ -14,6 +14,8 @@ namespace alice {
         GLFWwindow *window_;
         ObjectList<RenderObject> render_object_list_;
         double last_time_ = 0;
+        double last_cursor_pos_x = 0;
+        double last_cursor_pos_y = 0;
     public:
         Engine();
 

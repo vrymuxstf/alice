@@ -45,7 +45,6 @@ namespace alice {
 
     void MeshRenderObject::Draw() {
         Singleton<MeshShader>().Use();
-
         Singleton<MeshShader>().SetMat4("u_ViewProjection", Camera::Singleton().GetViewProjection());
 #ifdef OPENGL
         glBindVertexArray(vao_);

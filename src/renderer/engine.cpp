@@ -10,6 +10,7 @@
 
 #include "render_objects/triangle_render_object.h"
 #include "render_objects/mesh_render_object.h"
+#include "render_objects/skybox_render_object.h"
 
 #include "mesh_reader.h"
 
@@ -21,7 +22,7 @@ namespace alice {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #endif
 
-        window_ = glfwCreateWindow(1280, 720, "", nullptr, nullptr);
+        window_ = glfwCreateWindow(1280, 720, "Alice", nullptr, nullptr);
         glfwMakeContextCurrent(window_);
 
 #ifdef OPENGL
@@ -54,6 +55,10 @@ namespace alice {
         reader.Read("mesh.fbx");
 
         render_object_list_.Create<MeshRenderObject>(reader.vertices, reader.indices);
+
+        render_object_list_.Create<SkyboxRenderObject>();
+
+        glfwGetCursorPos(window_, &last_cursor_pos_x, &last_cursor_pos_y);
     }
 
     void Engine::Update() {
@@ -63,8 +68,19 @@ namespace alice {
         DeltaTime = time - last_time_;
         last_time_ = time;
 
-        ImGui_ImplOpenGL3_NewFrame();
+        double cursor_pos_x, cursor_pos_y;
+        glfwGetCursorPos(window_, &cursor_pos_x, &cursor_pos_y);
+
+        auto cursor_pos_x_offset = cursor_pos_x - last_cursor_pos_x;
+        auto cursor_pos_y_offset = cursor_pos_y - last_cursor_pos_y;
+
+        last_cursor_pos_x = cursor_pos_x;
+        last_cursor_pos_y = cursor_pos_y;
+
         ImGui_ImplGlfw_NewFrame();
+
+        ImGui_ImplOpenGL3_NewFrame();
+
         ImGui::NewFrame();
 
         ImGui::Begin("Hello, world!");
@@ -74,6 +90,13 @@ namespace alice {
 
         int width, height;
         glfwGetFramebufferSize(window_, &width, &height);
+
+        if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 100);
+            Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
+
+            std::cout << Camera::Singleton().rotation.x << std::endl;
+        }
 
         Camera::Singleton().width = width;
         Camera::Singleton().height = height;
