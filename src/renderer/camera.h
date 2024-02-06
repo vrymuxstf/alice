@@ -23,7 +23,6 @@ namespace alice {
         [[nodiscard]] glm::quat GetOrientation() const {
             glm::quat pitch = glm::angleAxis(glm::radians(rotation.x), glm::vec3(1, 0, 0));
             glm::quat yaw = glm::angleAxis(glm::radians(rotation.y), glm::vec3(0, 1, 0));
-            glm::quat roll = glm::angleAxis(glm::radians(rotation.z),glm::vec3(0,0,1));
 
             return glm::normalize(pitch * yaw);
         }
@@ -43,14 +42,6 @@ namespace alice {
 
         [[nodiscard]] glm::mat4 GetViewProjection() const {
             return GetProjection() * GetView();
-        }
-
-        [[nodiscard]] glm::vec3 GetFront() const {
-            return GetOrientation() * glm::vec3(0.0f, 0.0f, -1.0f);
-        }
-
-        [[nodiscard]] glm::vec3 GetRight() const {
-            return GetOrientation() * glm::vec3(1.0f, 0.0f, 0.0f);
         }
     };
 }

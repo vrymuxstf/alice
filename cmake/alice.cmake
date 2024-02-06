@@ -48,7 +48,7 @@ function(collect_dlls target)
 
         get_target_property(dlls ${required_target} ALICE_DLLS)
 
-        if(NOT ${dlls} STREQUAL "dlls-NOTFOUND")
+        if (NOT ${dlls} STREQUAL "dlls-NOTFOUND")
 
             foreach (dll IN LISTS dlls)
                 get_filename_component(dll_name ${dll} NAME)
@@ -75,12 +75,12 @@ function(collect_assets target)
 
         get_target_property(assets ${required_target} ALICE_ASSETS)
 
-        if(NOT "${assets}" STREQUAL "assets-NOTFOUND")
+        if (NOT "${assets}" STREQUAL "assets-NOTFOUND")
 
             foreach (asset IN LISTS assets)
-                message(${asset})
 
                 list(APPEND commands COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${asset} "$<TARGET_FILE_DIR:${target}>/${asset}")
+
             endforeach ()
         endif ()
 

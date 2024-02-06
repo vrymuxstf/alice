@@ -29,6 +29,8 @@ namespace alice {
         gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 #endif
 
+        glEnable(GL_DEPTH_TEST);
+
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
@@ -43,18 +45,35 @@ namespace alice {
         ImGui_ImplOpenGL3_Init();
 #endif
 
-        float vertices[] = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f, 0.5f, 0.0f
-        };
+/*        {
+            float vertices[] = {
+                    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                    0.5f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f,
+                    0.0f, 0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f
+            };
 
-        render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
+            render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
+        }
 
-        MeshReader reader;
-        reader.Read("mesh.fbx");
+        {
+            float vertices[] = {
+                    -0.625f, -0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f,
+                    0.625f, -0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f,
+                    0.0f, 0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f
+            };
 
-        render_object_list_.Create<MeshRenderObject>(reader.vertices, reader.indices);
+            render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
+        }
+
+        {
+            float vertices[] = {
+                    -0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.0f, 0.75f, -0.85f, 1.0f, 1.0f, 1.0f, 1.0f
+            };
+
+            render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
+        }*/
 
         render_object_list_.Create<SkyboxRenderObject>();
 
@@ -92,10 +111,10 @@ namespace alice {
         glfwGetFramebufferSize(window_, &width, &height);
 
         if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 100);
+            Camera::Singleton().rotation.x += (float) (DeltaTime * cursor_pos_y_offset * 100);
             Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
 
-            std::cout << Camera::Singleton().rotation.x << std::endl;
+            std::cout << cursor_pos_y_offset << std::endl;
         }
 
         Camera::Singleton().width = width;
@@ -103,7 +122,7 @@ namespace alice {
 
 #ifdef OPENGL
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(1.0f, 1.0, 0.5f, 1.0f);
 #endif
 

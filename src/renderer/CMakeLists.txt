@@ -3,7 +3,6 @@ add_library(renderer INTERFACE)
 target_sources(renderer INTERFACE ${SOURCE})
 target_include_directories(renderer INTERFACE .)
 target_link_libraries(renderer INTERFACE glfw glm assimp)
-set_target_properties(${target} PROPERTIES ALICE_ASSETS 123)
 add_target_asset(renderer assets/back.jpg assets/bottom.jpg assets/front.jpg assets/left.jpg assets/right.jpg assets/top.jpg)
 
 add_executable(renderer_opengl)
@@ -13,8 +12,9 @@ target_compile_definitions(renderer_opengl PRIVATE OPENGL)
 collect_dlls(renderer_opengl)
 collect_assets(renderer_opengl)
 
+#[[
 find_package(Vulkan REQUIRED)
 
 add_executable(renderer_vulkan)
 target_link_libraries(renderer_vulkan renderer Vulkan::Vulkan imgui_vk)
-target_compile_definitions(renderer_vulkan PRIVATE VULKAN)
+target_compile_definitions(renderer_vulkan PRIVATE VULKAN)]]
