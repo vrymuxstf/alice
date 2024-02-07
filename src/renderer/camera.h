@@ -17,7 +17,7 @@ namespace alice {
 
         int width = 1;
         int height = 1;
-        glm::vec3 position{0.0f, 0.0f, -10.0f};
+        glm::vec3 position{0.0f, 0.0f, 0.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
         [[nodiscard]] glm::quat GetOrientation() const {
@@ -28,11 +28,12 @@ namespace alice {
         }
 
         [[nodiscard]] glm::mat4 GetView() const {
+            //return glm::mat4(1.0f);
             return glm::mat4_cast(GetOrientation());
         }
 
         [[nodiscard]] glm::mat4 GetProjection() const {
-            return glm::perspective(
+            return glm::perspectiveLH(
                     glm::radians(45.0f),
                     (float) width / (float) height,
                     0.1f,
