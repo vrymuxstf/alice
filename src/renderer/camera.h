@@ -7,6 +7,12 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#define GLM_ENABLE_EXPERIMENTAL
+
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+
 namespace alice {
     class Camera {
     public:
@@ -17,27 +23,26 @@ namespace alice {
 
         int width = 1;
         int height = 1;
-        glm::vec3 position{0.0f, 0.0f, 0.0f};
+        glm::vec3 position{0.0f, 0.0f, -10.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
-        [[nodiscard]] glm::quat GetOrientation() const {
-            glm::quat pitch = glm::angleAxis(glm::radians(rotation.x), glm::vec3(1, 0, 0));
-            glm::quat yaw = glm::angleAxis(glm::radians(rotation.y), glm::vec3(0, 1, 0));
-
-            return glm::normalize(pitch * yaw);
+        [[nodiscard]] glm::vec3 GetOrientation() const {
+            glm::vec3 orient(0, 0, 1);
+            orient = glm::rotate(orient, glm::radians(-rotation.y), glm::vec3(0, 1, 0));
+            orient = glm::rotate(orient, glm::radians(rotation.x), glm::normalize(glm::cross(orient, glm::vec3(0, 1, 0))));
+            return orient;
         }
 
         [[nodiscard]] glm::mat4 GetView() const {
-            //return glm::mat4(1.0f);
-            return glm::mat4_cast(GetOrientation());
+            return glm::lookAt(position, position + GetOrientation(), glm::vec3(0, 1, 0));
         }
 
         [[nodiscard]] glm::mat4 GetProjection() const {
-            return glm::perspectiveLH(
+            return glm::perspective(
                     glm::radians(45.0f),
                     (float) width / (float) height,
                     0.1f,
-                    100.f
+                    1000.0f
             );
         }
 

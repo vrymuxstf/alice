@@ -27,9 +27,8 @@ namespace alice {
 
 #ifdef OPENGL
         gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-#endif
-
         glEnable(GL_DEPTH_TEST);
+#endif
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -45,7 +44,7 @@ namespace alice {
         ImGui_ImplOpenGL3_Init();
 #endif
 
-        {
+/*        {
             float vertices[] = {
                     -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
                     0.5f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f,
@@ -67,13 +66,18 @@ namespace alice {
 
         {
             float vertices[] = {
-                    -0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    0.75f, -0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    0.0f, 0.75f, 0.85f, 1.0f, 1.0f, 1.0f, 1.0f
+                    -0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.0f, 0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f
             };
 
             render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
-        }
+        }*/
+
+        MeshReader mesh_reader;
+        mesh_reader.Read("mesh.fbx");
+
+        render_object_list_.Create<MeshRenderObject>(mesh_reader.vertices, mesh_reader.indices);
 
         render_object_list_.Create<SkyboxRenderObject>();
 
@@ -111,10 +115,28 @@ namespace alice {
         glfwGetFramebufferSize(window_, &width, &height);
 
         if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 100);
-            Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
+            glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-            std::cout << Camera::Singleton().rotation.y << std::endl;
+            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 500);
+            Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 500);
+
+            if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS) {
+                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * Camera::Singleton().GetOrientation();
+            }
+
+            if (glfwGetKey(window_, GLFW_KEY_S) == GLFW_PRESS) {
+                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * Camera::Singleton().GetOrientation();
+            }
+
+            if (glfwGetKey(window_, GLFW_KEY_D) == GLFW_PRESS) {
+                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * glm::cross(Camera::Singleton().GetOrientation(), glm::vec3(0, 1, 0));
+            }
+
+            if (glfwGetKey(window_, GLFW_KEY_A) == GLFW_PRESS) {
+                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * glm::cross(Camera::Singleton().GetOrientation(), glm::vec3(0, 1, 0));
+            }
+        } else {
+            glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
 
         Camera::Singleton().width = width;
@@ -123,7 +145,7 @@ namespace alice {
 #ifdef OPENGL
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(1.0f, 1.0, 0.5f, 1.0f);
+        glClearColor(0, 0, 0, 1);
 #endif
 
         for (auto *renderer_object: render_object_list_) {
