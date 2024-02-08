@@ -11,7 +11,6 @@
 
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
 
 namespace alice {
     class Camera {
@@ -23,13 +22,16 @@ namespace alice {
 
         int width = 1;
         int height = 1;
-        glm::vec3 position{0.0f, 0.0f, -10.0f};
+        glm::vec3 position{0.0f, 0.0f, 10.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
         [[nodiscard]] glm::vec3 GetOrientation() const {
-            glm::vec3 orient(0, 0, 1);
+            glm::vec3 orient(0, 0, -1);
+
             orient = glm::rotate(orient, glm::radians(-rotation.y), glm::vec3(0, 1, 0));
-            orient = glm::rotate(orient, glm::radians(rotation.x), glm::normalize(glm::cross(orient, glm::vec3(0, 1, 0))));
+
+            orient = glm::rotate(orient, glm::radians(rotation.x),glm::normalize(glm::cross(orient, glm::vec3(0, 1, 0))));
+
             return orient;
         }
 
@@ -48,6 +50,10 @@ namespace alice {
 
         [[nodiscard]] glm::mat4 GetViewProjection() const {
             return GetProjection() * GetView();
+        }
+
+        [[nodiscard]] glm::vec3 GetRight() const {
+            return glm::cross(GetOrientation(), glm::vec3(0, 1, 0));
         }
     };
 }

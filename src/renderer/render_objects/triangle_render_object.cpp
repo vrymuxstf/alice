@@ -1,6 +1,5 @@
 #include "triangle_render_object.h"
 
-#include "singleton.h"
 #include "shader/triangle_shader.h"
 
 #include <glm/ext/matrix_transform.hpp>
@@ -30,11 +29,11 @@ namespace alice {
     }
 
     void TriangleRenderObject::Draw() {
-        Singleton<TriangleShader>().Use();
+        TriangleShader::Singleton().Use();
 
         glm::vec3 position(0, 0 , 0.5);
 
-        Singleton<TriangleShader>().SetMat4("u_Model", glm::translate(glm::mat4(1.0f), position));
+        TriangleShader::Singleton().SetMat4("u_Model", glm::translate(glm::mat4(1.0f), position));
 #ifdef OPENGL
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, 3);

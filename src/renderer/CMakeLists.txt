@@ -3,7 +3,7 @@ add_library(renderer INTERFACE)
 target_sources(renderer INTERFACE ${SOURCE})
 target_include_directories(renderer INTERFACE .)
 target_link_libraries(renderer INTERFACE glfw glm assimp)
-add_target_asset(renderer assets/back.jpg assets/bottom.jpg assets/front.jpg assets/left.jpg assets/right.jpg assets/top.jpg)
+add_target_asset(renderer assets/back.jpg assets/bottom.jpg assets/front.jpg assets/left.jpg assets/right.jpg assets/top.jpg assets/mesh.fbx)
 
 add_executable(renderer_opengl)
 target_link_libraries(renderer_opengl renderer glad imgui_gl)

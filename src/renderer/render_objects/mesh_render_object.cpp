@@ -7,7 +7,6 @@
 #ifdef OPENGL
 
 #include "glad/glad.h"
-#include "singleton.h"
 
 #endif
 
@@ -44,8 +43,8 @@ namespace alice {
     }
 
     void MeshRenderObject::Draw() {
-        Singleton<MeshShader>().Use();
-        Singleton<MeshShader>().SetMat4("u_ViewProjection", Camera::Singleton().GetViewProjection());
+        MeshShader::Singleton().Use();
+        MeshShader::Singleton().SetMat4("u_ViewProjection", Camera::Singleton().GetViewProjection());
 #ifdef OPENGL
         glBindVertexArray(vao_);
         glDrawElements(GL_TRIANGLES, (GLsizei) count_, GL_UNSIGNED_INT, nullptr);

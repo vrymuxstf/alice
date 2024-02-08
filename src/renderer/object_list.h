@@ -24,7 +24,7 @@ namespace alice {
 
         void Destroy(BaseObjectClass *object) {
             objects.erase(
-                    std::remove(objects.begin(), objects.end(), objects),
+                    std::remove(objects.begin(), objects.end(), object),
                     objects.end()
             );
             delete object;
@@ -36,6 +36,10 @@ namespace alice {
 
         std::vector<BaseObjectClass *>::iterator end() {
             return objects.end();
+        }
+
+        std::vector<BaseObjectClass *> Get() {
+            return objects;
         }
     };
 }

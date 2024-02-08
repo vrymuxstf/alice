@@ -1,9 +1,8 @@
 #include "engine.h"
-#include "singleton.h"
 
 int main() {
-    while (alice::Singleton<alice::Engine>().Running) {
-        alice::Singleton<alice::Engine>().Update();
+    while (alice::Engine::Singleton().Running) {
+        alice::Engine::Singleton().Update();
     }
     return 0;
 }

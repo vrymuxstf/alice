@@ -9,10 +9,9 @@
 #include <glad/glad.h>
 
 #include "render_objects/triangle_render_object.h"
-#include "render_objects/mesh_render_object.h"
 #include "render_objects/skybox_render_object.h"
 
-#include "mesh_reader.h"
+#include "component_factory.h"
 
 namespace alice {
     Engine::Engine() {
@@ -74,11 +73,6 @@ namespace alice {
             render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
         }*/
 
-        MeshReader mesh_reader;
-        mesh_reader.Read("mesh.fbx");
-
-        render_object_list_.Create<MeshRenderObject>(mesh_reader.vertices, mesh_reader.indices);
-
         render_object_list_.Create<SkyboxRenderObject>();
 
         glfwGetCursorPos(window_, &last_cursor_pos_x, &last_cursor_pos_y);
@@ -106,7 +100,51 @@ namespace alice {
 
         ImGui::NewFrame();
 
-        ImGui::Begin("Hello, world!");
+        ImGui::BeginMainMenuBar();
+        ImGui::MenuItem("Tree");
+        ImGui::EndMainMenuBar();
+
+        ImGui::Begin("Tree");
+        if (ImGui::Button("Create Entity")) {
+            entities_.Create<Entity>();
+        }
+
+        for (const auto &entity: entities_.Get()) {
+            if (ImGui::TreeNode((entity), "Entity")) {
+
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                    entities_.Destroy(entity);
+                }
+
+                if (ImGui::Button("Add Component")) {
+                    ImGui::OpenPopup("Components");
+                }
+
+                if (ImGui::BeginPopup("Components")) {
+                    for (const auto &name: ComponentFactory::GetComponentNames()) {
+                        if (ImGui::Button(name.c_str())) {
+                            entity->CreateComponent(name);
+                        }
+                    }
+                    ImGui::EndPopup();
+                }
+
+                for (const auto& component: entity->GetComponent()) {
+                    if (ImGui::TreeNode(component, "%s", component->GetClassName().c_str())) {
+
+                        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                            entity->DestroyComponent(component);
+                        }
+
+                        component->DisplayImGui();
+                        ImGui::TreePop();
+                    }
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
         ImGui::End();
 
         ImGui::Render();
@@ -129,11 +167,11 @@ namespace alice {
             }
 
             if (glfwGetKey(window_, GLFW_KEY_D) == GLFW_PRESS) {
-                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * glm::cross(Camera::Singleton().GetOrientation(), glm::vec3(0, 1, 0));
+                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
             }
 
             if (glfwGetKey(window_, GLFW_KEY_A) == GLFW_PRESS) {
-                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * glm::cross(Camera::Singleton().GetOrientation(), glm::vec3(0, 1, 0));
+                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
             }
         } else {
             glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

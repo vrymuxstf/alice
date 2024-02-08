@@ -1,6 +1,6 @@
 #include "skybox_render_object.h"
 #include "shader/skybox_shader.h"
-#include "singleton.h"
+
 #include "camera.h"
 
 #include <glad/glad.h>
@@ -69,9 +69,9 @@ namespace alice {
 
         cube_map_.Use();
 
-        Singleton<SkyboxShader>().Use();
-        Singleton<SkyboxShader>().SetMat4("u_Projection", Camera::Singleton().GetProjection());
-        Singleton<SkyboxShader>().SetMat4("u_View", glm::mat4(glm::mat3(Camera::Singleton().GetView())));
+        SkyboxShader::Singleton().Use();
+        SkyboxShader::Singleton().SetMat4("u_Projection", Camera::Singleton().GetProjection());
+        SkyboxShader::Singleton().SetMat4("u_View", glm::mat4(glm::mat3(Camera::Singleton().GetView())));
 
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, 36);
