@@ -20,5 +20,9 @@ namespace alice {
 
         virtual void DisplayImGui() {
         }
+
+        virtual void Update(float delta_time) {
+
+        }
     };
 }

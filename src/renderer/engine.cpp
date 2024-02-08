@@ -129,14 +129,21 @@ namespace alice {
                     ImGui::EndPopup();
                 }
 
-                for (const auto& component: entity->GetComponent()) {
-                    if (ImGui::TreeNode(component, "%s", component->GetClassName().c_str())) {
+                for (const auto &component: entity->GetComponent()) {
+                    component->Update((float) DeltaTime);
 
-                        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-                            entity->DestroyComponent(component);
+                    bool opened = ImGui::TreeNode(component, "%s", component->GetClassName().c_str());
+
+                    bool removed = false;
+                    if (ImGui::IsItemHovered() && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
+                        entity->DestroyComponent(component);
+                        removed = true;
+                    }
+
+                    if (opened) {
+                        if (!removed) {
+                            component->DisplayImGui();
                         }
-
-                        component->DisplayImGui();
                         ImGui::TreePop();
                     }
                 }
@@ -155,8 +162,8 @@ namespace alice {
         if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
             glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 500);
-            Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 500);
+            Camera::Singleton().rotation.x += (float) (DeltaTime * -cursor_pos_y_offset * 100);
+            Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
 
             if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS) {
                 Camera::Singleton().position += 2.0f * (float) (DeltaTime) * Camera::Singleton().GetOrientation();

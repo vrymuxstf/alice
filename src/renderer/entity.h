@@ -37,6 +37,16 @@ namespace alice {
             return nullptr;
         }
 
+        Component *GetComponent(const std::string &name) {
+            for (const auto &component: components_) {
+                if (component->GetClassName() == name) {
+                    return component;
+                }
+            }
+
+            return nullptr;
+        }
+
         void DestroyComponent(Component *component) {
             components_.erase(
                     std::remove(components_.begin(), components_.end(), component),

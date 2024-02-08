@@ -44,10 +44,14 @@ namespace alice {
 
     void MeshRenderObject::Draw() {
         MeshShader::Singleton().Use();
-        MeshShader::Singleton().SetMat4("u_ViewProjection", Camera::Singleton().GetViewProjection());
+        MeshShader::Singleton().SetMat4("u_ViewProjection", Camera::Singleton().GetViewProjection() * transform_);
 #ifdef OPENGL
         glBindVertexArray(vao_);
         glDrawElements(GL_TRIANGLES, (GLsizei) count_, GL_UNSIGNED_INT, nullptr);
 #endif
+    }
+
+    void MeshRenderObject::UpdateTransform(const glm::mat4 &transform) {
+        transform_ = transform;
     }
 }

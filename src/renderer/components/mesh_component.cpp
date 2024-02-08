@@ -16,4 +16,11 @@ namespace alice {
     MeshComponent::~MeshComponent() {
         Engine::Singleton().GetRenderObjectList().Destroy(mesh_);
     }
+
+    void MeshComponent::Update(float delta_time) {
+        auto transform_comp = (TransformComponent *) GetOwner()->GetComponent("TransformComponent");
+        if (transform_comp) {
+            mesh_->UpdateTransform(transform_comp->GetTransform());
+        }
+    }
 }

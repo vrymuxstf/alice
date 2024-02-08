@@ -16,5 +16,7 @@ namespace alice {
         std::string GetClassName() override {
             return "MeshComponent";
         }
+
+        void Update(float delta_time) override;
     };
 }
