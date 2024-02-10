@@ -17,11 +17,17 @@ namespace alice {
     Engine::Engine() {
         glfwInit();
 
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 #ifdef VULKAN
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #endif
 
         window_ = glfwCreateWindow(1280, 720, "Alice", nullptr, nullptr);
+
+
         glfwMakeContextCurrent(window_);
 
 #ifdef OPENGL
@@ -45,8 +51,18 @@ namespace alice {
 
 /*        {
             float vertices[] = {
-                    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                    0.5f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f,
+                    -0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    0.0f, 0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f
+            };
+
+            render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
+        }
+
+        {
+            float vertices[] = {
+                    -0.75f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                    0.25f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f,
                     0.0f, 0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f
             };
 
@@ -58,16 +74,6 @@ namespace alice {
                     -0.625f, -0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f,
                     0.625f, -0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f,
                     0.0f, 0.625f, 0.75f, 0.0f, 0.0f, 0.0f, 1.0f
-            };
-
-            render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
-        }
-
-        {
-            float vertices[] = {
-                    -0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    0.75f, -0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f,
-                    0.0f, 0.75f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f
             };
 
             render_object_list_.Create<TriangleRenderObject>(vertices, sizeof(vertices));
@@ -110,9 +116,10 @@ namespace alice {
         }
 
         for (const auto &entity: entities_.Get()) {
-            if (ImGui::TreeNode((entity), "Entity")) {
+            auto topped = ImGui::TreeNode((entity), "Entity");
 
-                if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+            if (topped) {
+                if (ImGui::Button("Delete")) {
                     entities_.Destroy(entity);
                 }
 
@@ -134,20 +141,22 @@ namespace alice {
 
                     bool opened = ImGui::TreeNode(component, "%s", component->GetClassName().c_str());
 
-                    bool removed = false;
-                    if (ImGui::IsItemHovered() && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
-                        entity->DestroyComponent(component);
-                        removed = true;
-                    }
-
                     if (opened) {
+                        bool removed = false;
+                        if (ImGui::Button("Delete")) {
+                            entity->DestroyComponent(component);
+                            removed = true;
+                        }
+
                         if (!removed) {
                             component->DisplayImGui();
                         }
                         ImGui::TreePop();
                     }
                 }
+            }
 
+            if (topped) {
                 ImGui::TreePop();
             }
         }
@@ -166,20 +175,21 @@ namespace alice {
             Camera::Singleton().rotation.y += (float) (DeltaTime * cursor_pos_x_offset * 100);
 
             if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS) {
-                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * Camera::Singleton().GetOrientation();
+                Camera::Singleton().position += 5.0f * (float) (DeltaTime) * Camera::Singleton().GetForward();
             }
 
             if (glfwGetKey(window_, GLFW_KEY_S) == GLFW_PRESS) {
-                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * Camera::Singleton().GetOrientation();
+                Camera::Singleton().position -= 5.0f * (float) (DeltaTime) * Camera::Singleton().GetForward();
             }
 
             if (glfwGetKey(window_, GLFW_KEY_D) == GLFW_PRESS) {
-                Camera::Singleton().position += 2.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
+                Camera::Singleton().position += 5.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
             }
 
             if (glfwGetKey(window_, GLFW_KEY_A) == GLFW_PRESS) {
-                Camera::Singleton().position -= 2.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
+                Camera::Singleton().position -= 5.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
             }
+
         } else {
             glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }

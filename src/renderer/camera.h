@@ -25,18 +25,22 @@ namespace alice {
         glm::vec3 position{0.0f, 0.0f, 10.0f};
         glm::vec3 rotation{0.0f, 0.0f, 0.0f};
 
-        [[nodiscard]] glm::vec3 GetOrientation() const {
+        [[nodiscard]] glm::vec3 GetForward() const {
             glm::vec3 orient(0, 0, -1);
 
             orient = glm::rotate(orient, glm::radians(-rotation.y), glm::vec3(0, 1, 0));
 
-            orient = glm::rotate(orient, glm::radians(rotation.x),glm::normalize(glm::cross(orient, glm::vec3(0, 1, 0))));
+            orient = glm::rotate(
+                    orient,
+                    glm::radians(rotation.x),
+                    glm::normalize(glm::cross(orient, glm::vec3(0, 1, 0)))
+            );
 
             return orient;
         }
 
         [[nodiscard]] glm::mat4 GetView() const {
-            return glm::lookAt(position, position + GetOrientation(), glm::vec3(0, 1, 0));
+            return glm::lookAt(position, position + GetForward(), glm::vec3(0, 1, 0));
         }
 
         [[nodiscard]] glm::mat4 GetProjection() const {
@@ -53,7 +57,7 @@ namespace alice {
         }
 
         [[nodiscard]] glm::vec3 GetRight() const {
-            return glm::cross(GetOrientation(), glm::vec3(0, 1, 0));
+            return glm::normalize(glm::cross(GetForward(), glm::vec3(0, 1, 0)));
         }
     };
 }
