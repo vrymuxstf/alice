@@ -98,4 +98,9 @@ namespace alice {
         auto location = glGetUniformLocation(program_, name);
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
     }
+
+    void Shader::SetVec3(const char *name, const glm::vec3 &value) const {
+        auto location = glGetUniformLocation(program_, name);
+        glUniform3f(location, value.x, value.y, value.z);
+    }
 }

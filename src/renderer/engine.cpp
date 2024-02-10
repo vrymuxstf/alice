@@ -10,6 +10,7 @@
 
 #include "render_objects/triangle_render_object.h"
 #include "render_objects/skybox_render_object.h"
+#include "render_objects/editor_grids_render_object.h"
 
 #include "component_factory.h"
 
@@ -33,6 +34,9 @@ namespace alice {
 #ifdef OPENGL
         gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
         glEnable(GL_DEPTH_TEST);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
         IMGUI_CHECKVERSION();
@@ -80,6 +84,7 @@ namespace alice {
         }*/
 
         render_object_list_.Create<SkyboxRenderObject>();
+        render_object_list_.Create<EditorGridsRenderObject>();
 
         glfwGetCursorPos(window_, &last_cursor_pos_x, &last_cursor_pos_y);
     }
@@ -188,6 +193,14 @@ namespace alice {
 
             if (glfwGetKey(window_, GLFW_KEY_A) == GLFW_PRESS) {
                 Camera::Singleton().position -= 5.0f * (float) (DeltaTime) * Camera::Singleton().GetRight();
+            }
+
+            if (glfwGetKey(window_, GLFW_KEY_SPACE) == GLFW_PRESS) {
+                Camera::Singleton().position.y += 5.0f * (float) (DeltaTime);
+            }
+
+            if (glfwGetKey(window_, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
+                Camera::Singleton().position.y -= 5.0f * (float) (DeltaTime);
             }
 
         } else {
