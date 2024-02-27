@@ -1,6 +1,6 @@
 #pragma once
 
-#include "component.h"
+#include "entity.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -8,17 +8,13 @@
 #include "imgui.h"
 
 namespace alice {
-    class TransformComponent : public Component {
+    class Transform : public Entity {
         glm::vec3 translation{0.0f};
         glm::vec3 rotation{0.0f};
         glm::vec3 scale{1.0f};
         glm::mat4 transform_{1.0f};
     public:
-        using Component::Component;
-
-        std::string GetClassName() override {
-            return "TransformComponent";
-        }
+        using Entity::Entity;
 
         [[nodiscard]] const glm::mat4 &GetTransform() const { return transform_; }
 
