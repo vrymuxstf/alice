@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 23)
 
 include(cmake/alice.cmake)
 
-add_subdirectory(src/assimp)
-add_subdirectory(src/glad)
-add_subdirectory(src/glfw-3.3.8)
-add_subdirectory(src/glm)
-add_subdirectory(src/imgui)
-add_subdirectory(src/renderer)
+add_subdirectory(modules/core)
+add_subdirectory(modules/game-socket)
+add_subdirectory(modules/program)
+
+add_subdirectory(projects/code)
+add_subdirectory(projects/nightmares)

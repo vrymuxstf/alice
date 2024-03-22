@@ -1,0 +1,2 @@
+add_executable(nightmares-client)
+target_link_libraries(nightmares-client nightmares)

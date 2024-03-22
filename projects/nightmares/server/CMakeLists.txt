@@ -1,0 +1,2 @@
+add_executable(nightmares-server)
+target_link_libraries(nightmares-server nightmares)

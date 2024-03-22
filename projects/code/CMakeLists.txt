@@ -1,0 +1,15 @@
+add_subdirectory(modules/assimp)
+add_subdirectory(modules/glad)
+add_subdirectory(modules/glfw-3.3.8)
+add_subdirectory(modules/glm)
+add_subdirectory(modules/imgui)
+
+file(GLOB_RECURSE SOURCE src/*.h src/*.cpp)
+add_executable(alice-code ${SOURCE})
+target_include_directories(alice-code PRIVATE src)
+target_link_libraries(alice-code glfw glad glm assimp imgui)
+target_compile_definitions(alice-code PRIVATE OPENGL)
+add_target_asset(alice-code assets/back.jpg assets/bottom.jpg assets/front.jpg assets/left.jpg assets/right.jpg assets/top.jpg assets/mesh.fbx)
+
+collect_dlls(alice-code)
+collect_assets(alice-code)
