@@ -2,4 +2,4 @@
 
 # Entity Component System
 
-# CMake Functions:
+# CMake Functions
