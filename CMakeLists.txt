@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 23)
 include(cmake/alice.cmake)
 
 add_subdirectory(modules/core)
-add_subdirectory(modules/game-socket)
 add_subdirectory(modules/program)
 
 add_subdirectory(projects/code)

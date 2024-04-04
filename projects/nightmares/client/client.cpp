@@ -4,16 +4,27 @@
 #include "alice/game-socket.h"
 
 int main() {
-    asio::io_context io;
-    alice::GameSocket game_socket(io, 7777);
-    std::thread thread([&io]() { io.run(); });
+    bool running = true;
 
-    std::cout << std::this_thread::get_id() << std::endl;
+    alice::GameSocket game_socket(7777);
 
-    while (true) {
+    std::thread thread([&running]() {
+        while (running) {
+            std::string input;
+            std::getline(std::cin, input);
+            if (input == "exit") {
+                running = false;
+            }
+        }
+    });
 
+    while (running) {
+        game_socket.Update();
     }
 
-    io.stop();
     thread.join();
+
+    game_socket.Shutdown();
+
+    return 0;
 }
