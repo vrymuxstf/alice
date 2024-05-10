@@ -7,6 +7,7 @@ include(cmake/alice.cmake)
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/program)
+add_subdirectory(modules/lele)
 
 add_subdirectory(projects/code)
 add_subdirectory(projects/nightmares)
