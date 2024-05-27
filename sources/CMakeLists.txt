@@ -1,0 +1,6 @@
+add_subdirectory(core)
+add_subdirectory(game-framework)
+add_subdirectory(game-renderer)
+add_subdirectory(glad)
+add_subdirectory(imgui)
+add_subdirectory(SDL3-3.1.2)
