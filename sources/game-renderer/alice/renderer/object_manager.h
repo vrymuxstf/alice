@@ -24,19 +24,18 @@ namespace alice::renderer {
             std::erase(objects_, object);
         }
 
-        void SetViewport(const float width, const float height) {
-            if (last_viewport_width_ == width && last_viewport_height_ == height) return;
+        bool SetViewport(const float width, const float height) {
+            if (last_viewport_width_ == width && last_viewport_height_ == height) return false;
 
             last_viewport_width_ = width;
             last_viewport_height_ = height;
 
             glViewport(0, 0, static_cast<int>(last_viewport_width_), static_cast<int>(last_viewport_height_));
+
+            return true;
         }
 
         void Draw() const {
-            glClearColor(0.2, 0.55, 0.6, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
-
             for (const auto &object: objects_) {
                 object->Draw();
             }
